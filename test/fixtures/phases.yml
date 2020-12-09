@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  phase_type: MyString
+  assignee: MyString
+  start_date: 2020-12-09 03:40:22
+  due_date: 2020-12-09 03:40:22
+  lead: one
+
+two:
+  phase_type: MyString
+  assignee: MyString
+  start_date: 2020-12-09 03:40:22
+  due_date: 2020-12-09 03:40:22
+  lead: two
