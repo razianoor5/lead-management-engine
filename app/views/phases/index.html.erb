@@ -1,0 +1,36 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Phases</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Phase type</th>
+      <th>Assignee</th>
+      <th>Start date</th>
+      <th>Due date</th>
+      <th>Lead</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @phases.each do |phase| %>
+      <tr>
+        <td><%= phase.phase_type %></td>
+        <td><%= phase.assignee %></td>
+        <td><%= phase.start_date %></td>
+        <td><%= phase.due_date %></td>
+        <td><%= phase.lead.client_email %></td>
+        <td><%= link_to 'Show', lead_phase_path(id:phase.id) %></td>
+        <td><%= link_to 'Edit', edit_lead_phase_path(id:phase.id) %></td>
+        <td><%= link_to 'Destroy', lead_phase_path(id:phase.id), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Phase', new_lead_phase_path %>|
+<%= link_to 'Back', leads_path %>

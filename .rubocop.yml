@@ -13,6 +13,7 @@ AllCops:
     - 'node_modules/**/*'
     - 'vendor/bundle/**/*'
     - 'bin/**/*'
+    - 'config/**/*'
 
 Metrics/LineLength:
   Max: 120
