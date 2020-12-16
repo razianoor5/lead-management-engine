@@ -74,3 +74,4 @@ end
 gem 'pundit', require: true
 
 gem 'rails_admin'
+gem "figaro"

@@ -25,8 +25,8 @@
   <%= @phase.lead.client_email %>
 </p>
 <h3><strong>Comments:</strong></h3>
-<%= render partial: "comments/comments", collection: @phase.comments, as: :comment, locals: {lead: @phase.lead} %>
-<%= render partial: "comments/phase_form", locals: {lead: @phase.lead} %>
+<%= render partial: 'comments/comments', collection: @phase.comments, as: :comment, locals: {lead: @phase.lead} %>
+<%= render partial: 'comments/phase_form', locals: {lead: @phase.lead} %>
 
 <%= link_to 'Edit', edit_lead_phase_path(lead_id: @phase.lead, id:@phase.id) %> |
 <%= link_to 'Back', lead_phases_path(lead_id: @phase.lead) %>

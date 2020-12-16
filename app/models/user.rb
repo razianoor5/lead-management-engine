@@ -8,6 +8,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_many :leads
+
   # validates :name, presence: true,
   #                  length: { in: 2..32 },
   #                  format: { with: /\A[a-zA-Z_ ]+\z/, message: 'allows  alphabets for name ' }
