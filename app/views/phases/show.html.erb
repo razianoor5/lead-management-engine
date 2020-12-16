@@ -29,3 +29,6 @@
 <% else %>
   <%= render  "phases/manager_show" %>
 <% end %>
+<% if @phase.pending? %>
+  <%= link_to "Mark as complete" ,phase_complete_path(@phase) %>
+<% end %>

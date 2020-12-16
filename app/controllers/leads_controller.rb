@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class LeadsController < ApplicationController
-  before_action :set_lead, only: %i[show edit update destroy]
+  before_action :set_lead, only: %i[show edit update destroy close]
   before_action :authenticate_user!
   # GET /leads
   def index
@@ -49,11 +49,21 @@ class LeadsController < ApplicationController
     respond_to { |format| format.html { redirect_to leads_url, notice: 'Lead was successfully destroyed.' } }
   end
 
+  def close
+    if @lead.phases.pending.exists?
+       redirect_to lead_url, alert: 'Lead cannot closed associated phases are pending'
+    else
+      @lead.is_sale = true
+      @lead.save!
+      redirect_to lead_url, notice: 'Lead closed successfully'
+    end
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
   def set_lead
-    @lead = Lead.find(params[:id])
+    @lead = Lead.includes(:phases).find(params[:id])
   end
 
   # Only allow a list of trusted parameters through.

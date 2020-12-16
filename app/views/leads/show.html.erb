@@ -35,4 +35,7 @@
 <%= link_to 'Phases', lead_phases_path(@lead) %> |
 <%= link_to 'Edit', edit_lead_path(@lead) %> |
 <%= link_to 'Back', leads_path %>
+<% if @lead.open? %>
+  <%= link_to "Close Lead" ,lead_close_path(@lead) %>
+<% end %>
 

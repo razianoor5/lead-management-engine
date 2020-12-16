@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class PhasesController < ApplicationController
-  before_action :set_phase, only: %i[show edit update destroy engineer]
+  before_action :set_phase, only: %i[show edit update destroy engineer complete]
 
   def index
     if current_user.technical_manager?
@@ -71,6 +71,12 @@ class PhasesController < ApplicationController
     @engineer = User.find(params[:engineer][:user_id])
     @phase.users.append(@engineer)
     redirect_to phase_url, notice: 'Engineer was successfully added.'
+  end
+
+  def complete
+    @phase.is_complete = true
+    @phase.save!
+    redirect_to phase_url, notice: 'Phase marked as complete successfully'
   end
 
   private

@@ -6,6 +6,7 @@
       <th>Start date</th>
       <th>Due date</th>
       <th>Lead</th>
+      <th>Status</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -18,6 +19,7 @@
         <td><%= phase.start_date %></td>
         <td><%= phase.due_date %></td>
         <td><%= phase.lead.client_email %></td>
+        <td><%= phase.is_complete %></td>
         <td><%= link_to 'Show', lead_phase_path(id:phase.id) %></td>
         <td><%= link_to 'Edit', edit_lead_phase_path(id:phase.id) %></td>
         <td><%= link_to 'Destroy', lead_phase_path(id:phase.id), method: :delete, data: { confirm: 'Are you sure?' } %></td>
