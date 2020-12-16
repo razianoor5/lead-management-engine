@@ -21,7 +21,7 @@ class PhasesController < ApplicationController
 
   # POST /phases
   def create
-    byebug
+
     @lead = Lead.find(params[:lead_id])
     @phase = @lead.phases.new(phase_params)
     user = User.find_by(email: @phase.assignee)
