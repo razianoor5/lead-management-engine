@@ -2,6 +2,8 @@
 
 class HomeController < ApplicationController
   def index
-    redirect_to current_user&.super_admin? ? rails_admin_path : leads_path
+    redirect_to leads_path if current_user&.business_developer?
+    redirect_to phases_path if current_user&.technical_manager?
+    redirect_to rails_admin_path if current_user&.super_admin?
   end
 end

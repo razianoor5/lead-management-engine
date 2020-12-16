@@ -2,12 +2,18 @@
 
 Rails.application.routes.draw do
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
+  post 'phase/:id', :to => 'phases#engineer', as: 'phase_engineers'
+
   devise_for :users
   resources :leads do
     resources :comments, only: %i[create destroy]
     resources :phases do
       resources :comments, only: %i[create destroy]
     end
+  end
+
+  resources :phases do
+    resources :comments, only: %i[create destroy]
   end
 
   root to: 'home#index'

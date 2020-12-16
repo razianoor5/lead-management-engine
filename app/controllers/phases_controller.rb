@@ -1,15 +1,21 @@
 # frozen_string_literal: true
 
 class PhasesController < ApplicationController
-  before_action :set_phase, only: %i[show edit update destroy]
+  before_action :set_phase, only: %i[show edit update destroy engineer]
 
   def index
-    @lead = Lead.find(params[:lead_id])
-    @phases = @lead.phases
+    if current_user.technical_manager?
+      @phases = current_user.phases
+    else
+      @lead = Lead.find(params[:lead_id])
+      @phases = @lead.phases
+    end
   end
 
   # GET /phases/1
-  def show; end
+  def show
+    @users = User.includes(:phases).engineer.filter { |engineer| engineer.phases.count.zero? }
+  end
 
   # GET /phases/new
   def new
@@ -39,7 +45,9 @@ class PhasesController < ApplicationController
   # PATCH/PUT /phases/1
   def update
     respond_to do |format|
-      if @phase.update(phase_params)
+      if current_user.technical_manager? && @phase.update(phase_params)
+        format.html { redirect_to phases_url, notice: 'Phase was successfully updated.' }
+      elsif current_user.business_developer? && @phase.update(phase_params)
         format.html { redirect_to lead_phases_url, notice: 'Phase was successfully updated.' }
       else
         format.html { render :edit }
@@ -50,7 +58,19 @@ class PhasesController < ApplicationController
   # DELETE /phases/1
   def destroy
     @phase.destroy
-    respond_to { |format| format.html { redirect_to lead_phases_url, notice: 'Phase was successfully destroyed.' } }
+    if current_user.technical_manager?
+      redirect_to phases_url, notice: 'Phase was successfully destroyed.'
+    else
+      redirect_to lead_phases_url, notice: 'Phase was successfully destroyed.'
+    end
+  end
+
+  #Adding engineers
+
+  def engineer
+    @engineer = User.find(params[:engineer][:user_id])
+    @phase.users.append(@engineer)
+    redirect_to phase_url, notice: 'Engineer was successfully added.'
   end
 
   private

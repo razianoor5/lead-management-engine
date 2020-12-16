@@ -5,17 +5,23 @@ class CommentsController < ApplicationController
 
   # POST /comments
   def create
-    if params[:phase_id]
+    if current_user.business_developer?
+      if params[:phase_id]
+        @commentable = Phase.find(params[:phase_id])
+        @lead = Lead.find(params[:lead_id])
+        @comment = @commentable.comments.new(comment_params)
+        @comment.save
+        redirect_to [@lead, @commentable], notice: 'Your Comment was successfully created.'
+      else
+        @commentable = Lead.find(params[:lead_id])
+        @comment = @commentable.comments.new(comment_params)
+        @comment.save
+        redirect_to [@commentable], notice: 'Your Comment was successfully created.'
+      end
+    else
       @commentable = Phase.find(params[:phase_id])
-      @lead = Lead.find(params[:lead_id])
-    else
-      @commentable = Lead.find(params[:lead_id])
-    end
-    @comment = @commentable.comments.new(comment_params)
-    @comment.save
-    if params[:phase_id]
-      redirect_to [@lead, @commentable], notice: 'Your Comment was successfully created.'
-    else
+      @comment = @commentable.comments.new(comment_params)
+      @comment.save
       redirect_to [@commentable], notice: 'Your Comment was successfully created.'
     end
   end
@@ -24,10 +30,15 @@ class CommentsController < ApplicationController
 
   def destroy
     @comment.destroy
-    if params[:phase_id]
-      redirect_to lead_phase_path(id: params[:phase_id]), notice: 'Comment was successfully destroyed.'
+
+    if current_user.business_developer?
+      if params[:phase_id]
+        redirect_to lead_phase_path(id: params[:phase_id]), notice: 'Comment was successfully destroyed.'
+      else
+        redirect_to lead_path(id: params[:lead_id]), notice: 'Comment was successfully destroyed.'
+      end
     else
-      redirect_to lead_path(id: params[:lead_id]), notice: 'Comment was successfully destroyed.'
+      redirect_to phase_path(id: params[:phase_id]), notice: 'Comment was successfully destroyed.'
     end
   end
 

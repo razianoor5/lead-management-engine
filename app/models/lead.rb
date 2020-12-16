@@ -2,8 +2,8 @@
 
 class Lead < ApplicationRecord
   belongs_to :user
-  has_many :phases
-  has_many :comments, as: :commentable
+  has_many :phases, dependent: :destroy
+  has_many :comments, as: :commentable, dependent: :destroy
 
   validates :client_name, presence: true
   validates :client_email, presence: true
