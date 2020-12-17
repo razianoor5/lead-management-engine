@@ -1,0 +1,6 @@
+<%= form_for @phase, url: phase_engineers_url, method: :post do |f| %>
+  <%= collection_select(:engineer, :user_id, @users, :id, :email) %>
+  <div class="actions">
+    <%= f.submit 'add engineer' %>
+  </div>
+<% end %>

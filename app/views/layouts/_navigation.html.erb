@@ -1,0 +1,23 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class='navbar-header'>
+    <h2>Lead Management Engine</h2>
+    </div>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+
+  <div class="collapse navbar-collapse pull-right" id="navbarText">
+    <ul class="navbar-nav mr-auto pull-right">
+        <% if user_signed_in? %>
+        <span class="navbar-text pull-right ">
+          <%= current_user.email %>
+          <%= link_to 'Home', leads_path,class: 'btn btn-info' %>
+          <%= link_to 'Log out', destroy_user_session_path, method: :delete,class: 'btn btn-info'%>
+        </span>
+        <% else %>
+          <li class = 'nav-item' ><%= link_to 'Log In', new_user_session_path,class: 'btn btn-dark' %></li>
+        <% end %>
+      </ul>
+</nav>
+

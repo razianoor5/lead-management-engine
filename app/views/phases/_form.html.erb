@@ -1,37 +1,11 @@
-<%= form_with  scope: :phase, url: lead_phases_url,local: true, method: :post do |form| %>
+<%= bootstrap_form_with  scope: :phase, url: lead_phases_url,local: true, method: :post do |form| %>
   <% if phase.errors.any? %>
     <div id='error_explanation'>
-      <h2><%= pluralize(phase.errors.count, 'error') %> prohibited this phase from being saved:</h2>
-
-      <ul>
-      <% phase.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
+      <h4><%= pluralize(phase.errors.count, 'error') %> prohibited this phase from being saved:</h4>
   <% end %>
-
-  <div class='field'>
-    <%= form.label :phase_type %>
-    <%= form.text_field :phase_type %>
-  </div>
-
-  <div class='field'>
-    <%= form.label :assignee %>
-    <%= form.email_field :assignee %>
-  </div>
-
-  <div class='field'>
-    <%= form.label :start_date %>
-    <%= form.datetime_select :start_date %>
-  </div>
-
-  <div class='field'>
-    <%= form.label :due_date %>
-    <%= form.datetime_select :due_date %>
-  </div>
-
-  <div class='actions'>
-    <%= form.submit %>
-  </div>
+  <%= form.text_field :phase_type %>
+  <%= form.email_field :assignee %>
+  <%= form.datetime_select :start_date %>
+  <%= form.datetime_select :due_date %>
+  <%= form.submit %>
 <% end %>

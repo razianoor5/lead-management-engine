@@ -2,28 +2,16 @@
 
 class CommentsController < ApplicationController
   before_action :set_comment, only: %i[destroy]
-
+  before_action :authenticate_user!
   # POST /comments
   def create
-    if current_user.business_developer?
-      if params[:phase_id]
-        @commentable = Phase.find(params[:phase_id])
-        @lead = Lead.find(params[:lead_id])
-        @comment = @commentable.comments.new(comment_params)
-        @comment.save
-        redirect_to [@lead, @commentable], notice: 'Your Comment was successfully created.'
-      else
-        @commentable = Lead.find(params[:lead_id])
-        @comment = @commentable.comments.new(comment_params)
-        @comment.save
-        redirect_to [@commentable], notice: 'Your Comment was successfully created.'
-      end
-    else
-      @commentable = Phase.find(params[:phase_id])
-      @comment = @commentable.comments.new(comment_params)
-      @comment.save
-      redirect_to [@commentable], notice: 'Your Comment was successfully created.'
-    end
+    # @commentable = Phase.find(params[:phase_id])
+    @lead = Lead.find(params[:lead_id])
+    @comment = @lead.comments.new(comment_params)
+
+    authorize @comment
+    @comment.save
+    redirect_to [@lead], notice: 'Your Comment was successfully created.'
   end
 
   # DELETE /comments/1

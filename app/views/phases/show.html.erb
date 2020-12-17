@@ -24,11 +24,14 @@
   <%= @phase.lead.client_email %>
 </p>
 
-<% if current_user.business_developer? %>
-  <%= render "phases/bd_show" %>
-<% else %>
-  <%= render  "phases/manager_show" %>
-<% end %>
+<h3>Engineers</h3>
+<%= render partial: 'phases/engineers', collection: @phase.users.where(role: 'engineer'), as: :user %>
+<br>
+
+<%= render 'phases/engineers_form' %>
+
+<%= render 'phases/bd_show' %>
+
 <% if @phase.pending? %>
-  <%= link_to "Mark as complete" ,phase_complete_path(@phase) %>
+  <%= link_to 'Mark as complete' ,phase_complete_path(@phase) %>
 <% end %>

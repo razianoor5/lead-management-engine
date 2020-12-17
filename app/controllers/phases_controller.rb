@@ -2,14 +2,11 @@
 
 class PhasesController < ApplicationController
   before_action :set_phase, only: %i[show edit update destroy engineer complete]
+  before_action :authenticate_user!
 
   def index
-    if current_user.technical_manager?
-      @phases = current_user.phases
-    else
-      @lead = Lead.find(params[:lead_id])
-      @phases = @lead.phases
-    end
+    @lead = Lead.find(params[:lead_id])
+    @phases = @lead.phases
   end
 
   # GET /phases/1
@@ -19,7 +16,8 @@ class PhasesController < ApplicationController
 
   # GET /phases/new
   def new
-    @phase = Phase.new
+    @phase = Lead.find(params[:lead_id]).phases.build
+    authorize @phase
   end
 
   # GET /phases/1/edit
@@ -27,9 +25,9 @@ class PhasesController < ApplicationController
 
   # POST /phases
   def create
-
     @lead = Lead.find(params[:lead_id])
     @phase = @lead.phases.new(phase_params)
+    authorize @phase
     user = User.find_by(email: @phase.assignee)
     @phase.users.append(user)
     respond_to do |format|
@@ -45,9 +43,7 @@ class PhasesController < ApplicationController
   # PATCH/PUT /phases/1
   def update
     respond_to do |format|
-      if current_user.technical_manager? && @phase.update(phase_params)
-        format.html { redirect_to phases_url, notice: 'Phase was successfully updated.' }
-      elsif current_user.business_developer? && @phase.update(phase_params)
+      if @phase.update(phase_params)
         format.html { redirect_to lead_phases_url, notice: 'Phase was successfully updated.' }
       else
         format.html { render :edit }
@@ -58,25 +54,21 @@ class PhasesController < ApplicationController
   # DELETE /phases/1
   def destroy
     @phase.destroy
-    if current_user.technical_manager?
-      redirect_to phases_url, notice: 'Phase was successfully destroyed.'
-    else
-      redirect_to lead_phases_url, notice: 'Phase was successfully destroyed.'
-    end
+    redirect_to lead_phases_url, notice: 'Phase was successfully destroyed.'
   end
 
-  #Adding engineers
+  # Adding engineers
 
   def engineer
     @engineer = User.find(params[:engineer][:user_id])
     @phase.users.append(@engineer)
-    redirect_to phase_url, notice: 'Engineer was successfully added.'
+    redirect_to lead_phase_url(@phase.lead_id), notice: 'Engineer was successfully added.'
   end
 
   def complete
     @phase.is_complete = true
     @phase.save!
-    redirect_to phase_url, notice: 'Phase marked as complete successfully'
+    redirect_to lead_phases_url(@phase.lead_id), notice: 'Phase marked as complete successfully'
   end
 
   private
@@ -84,8 +76,13 @@ class PhasesController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_phase
     @phase = Phase.find(params[:id])
+    authorize @phase
   end
 
+  def user_not_authorized(_exception)
+    flash[:alert] = 'You are not authorized to perform this action.'
+    redirect_to lead_phases_path(@phase.lead_id)
+  end
   # Only allow a list of trusted parameters through.
   def phase_params
     params.require(:phase).permit(:phase_type, :assignee, :start_date, :due_date)

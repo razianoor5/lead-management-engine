@@ -5,7 +5,7 @@ class LeadsController < ApplicationController
   before_action :authenticate_user!
   # GET /leads
   def index
-    @leads = current_user.leads
+    @leads = Lead.all
     # @leads = current_user.leads
   end
 
@@ -14,6 +14,7 @@ class LeadsController < ApplicationController
   # GET /leads/new
   def new
     @lead = current_user.leads.build
+    authorize @lead
   end
 
   # GET /leads/1/edit
@@ -51,7 +52,7 @@ class LeadsController < ApplicationController
 
   def close
     if @lead.phases.pending.exists?
-       redirect_to lead_url, alert: 'Lead cannot closed associated phases are pending'
+      redirect_to lead_url, alert: 'Lead cannot closed associated phases are pending'
     else
       @lead.is_sale = true
       @lead.save!
@@ -64,6 +65,7 @@ class LeadsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_lead
     @lead = Lead.includes(:phases).find(params[:id])
+    authorize @lead
   end
 
   # Only allow a list of trusted parameters through.
