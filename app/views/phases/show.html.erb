@@ -1,42 +1,42 @@
 <div class='col-lg-3 ml-0 mr-auto pt-3 mb-2' >
-<p>
-  <strong>Phase type:</strong>
-  <%= @phase.phase_type %>
-</p>
+  <p>
+    <strong>Phase type:</strong>
+    <%= @phase.phase_type %>
+  </p>
 
-<p>
-  <strong>Assignee:</strong>
-  <%= @phase.assignee %>
-</p>
+  <p>
+    <strong>Assignee:</strong>
+    <%= @phase.assignee %>
+  </p>
 
-<p>
-  <strong>Start date:</strong>
-  <%= @phase.start_date %>
-</p>
+  <p>
+    <strong>Start date:</strong>
+    <%= @phase.start_date %>
+  </p>
 
-<p>
-  <strong>Due date:</strong>
-  <%= @phase.due_date %>
-</p>
+  <p>
+    <strong>Due date:</strong>
+    <%= @phase.due_date %>
+  </p>
 
-<p>
-  <strong>Lead:</strong>
-  <%= @phase.lead.client_email %>
-</p>
+  <p>
+    <strong>Lead:</strong>
+    <%= @phase.lead.client_email %>
+  </p>
 
 <h4>Engineers</h4>
 </div>
-<%= render partial: 'phases/engineers', collection: @phase.users.where(role: 'engineer'), as: :user %>
+  <%= render partial: 'phases/engineers', collection: @phase.users.where(role: 'engineer'), as: :user %>
 <br>
 
-<%if policy(@phase).engineer? %>
-<%= render 'phases/engineers_form' %>
+<% if policy(@phase).engineer? %>
+  <%= render 'phases/engineers_form' %>
 <% end %>
 
 <%= render 'phases/show' %>
 
-<%if policy(@phase).complete? %>
-<% if @phase.pending? %>
-  <%= link_to 'Mark as complete', phase_complete_path(@phase) %>
-<% end %>
+<% if policy(@phase).complete? %>
+  <% if @phase.pending? %>
+    <%= link_to 'Mark as complete', phase_complete_path(@phase) %>
+  <% end %>
 <% end %>

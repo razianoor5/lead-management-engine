@@ -8,15 +8,11 @@ class CommentsController < ApplicationController
     if params[:phase_id]
       @commentable = Phase.find(params[:phase_id])
       @lead = Lead.find(params[:lead_id])
-      @comment = @commentable.comments.new(comment_params)
-      authorize @comment
-      @comment.save
+      dry_comment(@commentable, comment_params)
       redirect_to [@lead, @commentable], notice: 'Your Comment was successfully created.'
     else
       @commentable = Lead.find(params[:lead_id])
-      @comment = @commentable.comments.new(comment_params)
-      authorize @comment
-      @comment.save
+      dry_comment(@commentable, comment_params)
       redirect_to @commentable, notice: 'Your Comment was successfully created.'
     end
   end
@@ -48,5 +44,12 @@ class CommentsController < ApplicationController
   def user_not_authorized(_exception)
     flash[:alert] = 'You are not authorized to perform this action.'
     redirect_to lead_path(params[:lead_id])
+  end
+
+  def dry_comment(commentable, comment_params)
+    comment = commentable.comments.new(comment_params)
+    authorize @comment
+    comment.save
+    comment
   end
 end
