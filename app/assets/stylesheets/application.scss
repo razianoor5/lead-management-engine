@@ -12,6 +12,6 @@
  *= require rails_bootstrap_forms
  */
 // Custom bootstrap variables must be set or imported *before* bootstrap.
-@import "bootstrap";
+@import 'bootstrap';
 
-@import "rails_bootstrap_forms";
+@import 'rails_bootstrap_forms';

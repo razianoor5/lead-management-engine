@@ -23,8 +23,9 @@ class CommentPolicy < ApplicationPolicy
     else
       phase = Phase.find(@comment.commentable_id)
       phase.users.where(role: 'technical_manager').exists?(@user.id)
+    end
   end
-end
+
   class Scope < Scope
     def resolve
       scope.all

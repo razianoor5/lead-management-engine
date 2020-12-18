@@ -20,12 +20,17 @@
         <td><%= phase.due_date %></td>
         <td><%= phase.lead.client_email %></td>
         <td><%= phase.is_complete %></td>
-        <td><%= link_to 'Show', phase_path(id:phase.id) %></td>
-<!--         <td><%= link_to 'Edit', edit_phase_path(id:phase.id) %></td>]
- -->        <td><%= link_to 'Destroy', phase_path(id:phase.id), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Show', lead_phase_path(id:phase.id) %></td>
+        <%if policy(phase).edit? %>
+          <td><%= link_to 'Edit', edit_lead_phase_path(id:phase.id) %></td>
+          <td><%= link_to 'Destroy', lead_phase_path(id:phase.id), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>
 </table>
 
 <br>
+
+<%= link_to 'New Phase', new_lead_phase_path %>|
+<%= link_to 'Back', leads_path %>

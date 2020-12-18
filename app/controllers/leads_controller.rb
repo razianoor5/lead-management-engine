@@ -2,7 +2,7 @@
 
 class LeadsController < ApplicationController
   before_action :set_lead, only: %i[show edit update destroy close]
-  before_action :authenticate_user!
+
   # GET /leads
   def index
     @leads = Lead.all

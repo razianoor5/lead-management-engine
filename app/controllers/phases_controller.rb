@@ -2,7 +2,6 @@
 
 class PhasesController < ApplicationController
   before_action :set_phase, only: %i[show edit update destroy engineer complete]
-  before_action :authenticate_user!
 
   def index
     @lead = Lead.find(params[:lead_id])

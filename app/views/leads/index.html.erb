@@ -25,8 +25,10 @@
         <td><%= lead.is_sale %></td>
         <td><%= link_to 'Show', lead ,class: 'btn btn-primary' %></td>
         <td><%= link_to 'Phases', lead_phases_path(lead), class: 'btn btn-info' %></td>
-        <td><%= link_to 'Edit', edit_lead_path(lead), class: 'btn btn-warning' %></td>
-        <td><%= link_to 'Destroy', lead, method: :delete, data: { confirm: 'Are you sure?' } ,class: 'btn btn-danger'%></td>
+        <%if policy(lead).close? %>
+          <td><%= link_to 'Edit', edit_lead_path(lead), class: 'btn btn-warning' %></td>
+          <td><%= link_to 'Destroy', lead, method: :delete, data: { confirm: 'Are you sure?' } ,class: 'btn btn-danger'%></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>

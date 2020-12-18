@@ -41,7 +41,7 @@ class PhasePolicy < ApplicationPolicy
   end
 
   def complete?
-    @user.id == @phase.lead.user_id || @phase.users.where(role: 'technical_manager').exists?(@user.id)
+    @user.id == @phase.lead.user_id || phase_assignee?
   end
 
   private

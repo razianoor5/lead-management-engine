@@ -17,7 +17,7 @@ class LeadPolicy < ApplicationPolicy
   end
 
   def create?
-    is_business_developer?
+    business_developer?
   end
 
   def new?
@@ -42,7 +42,7 @@ class LeadPolicy < ApplicationPolicy
 
   private
 
-  def is_business_developer?
+  def business_developer?
     user.business_developer?
   end
 

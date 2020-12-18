@@ -1,4 +1,4 @@
-
+<div class='col-lg-3 ml-0 mr-auto pt-3 mb-2' >
 <p>
   <strong>Phase type:</strong>
   <%= @phase.phase_type %>
@@ -24,14 +24,19 @@
   <%= @phase.lead.client_email %>
 </p>
 
-<h3>Engineers</h3>
+<h4>Engineers</h4>
+</div>
 <%= render partial: 'phases/engineers', collection: @phase.users.where(role: 'engineer'), as: :user %>
 <br>
 
+<%if policy(@phase).engineer? %>
 <%= render 'phases/engineers_form' %>
+<% end %>
 
-<%= render 'phases/bd_show' %>
+<%= render 'phases/show' %>
 
+<%if policy(@phase).complete? %>
 <% if @phase.pending? %>
-  <%= link_to 'Mark as complete' ,phase_complete_path(@phase) %>
+  <%= link_to 'Mark as complete', phase_complete_path(@phase) %>
+<% end %>
 <% end %>
