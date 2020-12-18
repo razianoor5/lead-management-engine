@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
     redirect_to leads_path
   end
 
-  def after_sign_in_path_for( resource )
+  def after_sign_in_path_for(_resource)
     if current_user.super_admin?
       rails_admin_path
     else

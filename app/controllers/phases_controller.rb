@@ -82,6 +82,7 @@ class PhasesController < ApplicationController
     flash[:alert] = 'You are not authorized to perform this action.'
     redirect_to lead_phases_path(@phase.lead_id)
   end
+
   # Only allow a list of trusted parameters through.
   def phase_params
     params.require(:phase).permit(:phase_type, :assignee, :start_date, :due_date)
