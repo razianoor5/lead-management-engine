@@ -82,4 +82,4 @@ gem 'bootstrap', '~> 4.0.0'
 
 gem 'jquery-rails'
 
-gem 'bootstrap_form', '~> 4.0'
+gem 'bootstrap_form'
