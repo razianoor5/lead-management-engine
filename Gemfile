@@ -71,7 +71,15 @@ group :development, :test do
   gem 'rubocop-rails'
   gem 'rubocop-rspec' # or gem 'rubocop-rspec' depending on your test suite
 end
+
 gem 'pundit', require: true
 
 gem 'rails_admin'
-gem "figaro"
+
+gem 'figaro'
+
+gem 'bootstrap', '~> 4.0.0'
+
+gem 'jquery-rails'
+
+gem 'bootstrap_form'

@@ -1,50 +1,58 @@
 # frozen_string_literal: true
-# class ApplicationPolicy
-#   attr_reader :user, :record
 
-#   def initialize(user, record)
-#     @user = user
-#     @record = record
-#   end
+class LeadPolicy < ApplicationPolicy
+  attr_reader :user, :lead
 
-#   def index?
-#     true
-#   end
+  def initialize(user, lead)
+    @user = user
+    @lead = lead
+  end
 
-#   def show?
-#     false
-#   end
+  def index?
+    true
+  end
 
-#   def create?
-#     false
-#   end
+  def show?
+    true
+  end
 
-#   def new?
-#     create?
-#   end
+  def create?
+    business_developer?
+  end
 
-#   def update?
-#     false
-#   end
+  def new?
+    create?
+  end
 
-#   def edit?
-#     update?
-#   end
+  def update?
+    owner?
+  end
 
-#   def destroy?
-#     false
-#   end
+  def edit?
+    owner?
+  end
 
-#   class Scope
-#     attr_reader :user, :scope
+  def destroy?
+    owner?
+  end
 
-#     def initialize(user, scope)
-#       @user = user
-#       @scope = scope
-#     end
+  def close?
+    owner?
+  end
 
-#     def resolve
-#       scope.all
-#     end
-#   end
-# end
+  private
+
+  def business_developer?
+    user.business_developer?
+  end
+
+  def owner?
+    @lead.user_id == @user.id
+  end
+
+  class Scope < Scope
+    def resolve
+      scope.all
+    end
+  end
+end

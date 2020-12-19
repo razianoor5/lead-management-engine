@@ -1,0 +1,36 @@
+<table class='table table-hover'>
+  <thead>
+    <tr>
+      <th scope='col'>Phase type</th>
+      <th scope='col'>Assignee</th>
+      <th scope='col'>Start date</th>
+      <th scope='col'>Due date</th>
+      <th scope='col'>Lead</th>
+      <th scope='col'>Status</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @phases.each do |phase| %>
+      <tr>
+        <td><%= phase.phase_type %></td>
+        <td><%= phase.assignee %></td>
+        <td><%= phase.start_date %></td>
+        <td><%= phase.due_date %></td>
+        <td><%= phase.lead.client_email %></td>
+        <td><%= phase.is_complete %></td>
+        <td><%= link_to 'Show', lead_phase_path(id:phase.id) %></td>
+        <% if policy(phase).edit? %>
+          <td><%= link_to 'Edit', edit_lead_phase_path(id:phase.id) %></td>
+          <td><%= link_to 'Destroy', lead_phase_path(id:phase.id), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Phase', new_lead_phase_path %>|
+<%= link_to 'Back', leads_path %>

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class PhasesController < ApplicationController
-  before_action :set_phase, only: %i[show edit update destroy]
+  before_action :set_phase, only: %i[show edit update destroy engineer complete]
 
   def index
     @lead = Lead.find(params[:lead_id])
@@ -9,11 +9,14 @@ class PhasesController < ApplicationController
   end
 
   # GET /phases/1
-  def show; end
+  def show
+    @users = User.includes(:phases).engineer.filter { |engineer| engineer.phases.count.zero? }
+  end
 
   # GET /phases/new
   def new
-    @phase = Phase.new
+    @phase = Lead.find(params[:lead_id]).phases.build
+    authorize @phase
   end
 
   # GET /phases/1/edit
@@ -21,9 +24,9 @@ class PhasesController < ApplicationController
 
   # POST /phases
   def create
-
     @lead = Lead.find(params[:lead_id])
     @phase = @lead.phases.new(phase_params)
+    authorize @phase
     user = User.find_by(email: @phase.assignee)
     @phase.users.append(user)
     respond_to do |format|
@@ -50,7 +53,21 @@ class PhasesController < ApplicationController
   # DELETE /phases/1
   def destroy
     @phase.destroy
-    respond_to { |format| format.html { redirect_to lead_phases_url, notice: 'Phase was successfully destroyed.' } }
+    redirect_to lead_phases_url, notice: 'Phase was successfully destroyed.'
+  end
+
+  # Adding engineers
+
+  def engineer
+    @engineer = User.find(params[:engineer][:user_id])
+    @phase.users.append(@engineer)
+    redirect_to lead_phase_url(@phase.lead_id), notice: 'Engineer was successfully added.'
+  end
+
+  def complete
+    @phase.is_complete = true
+    @phase.save!
+    redirect_to lead_phases_url(@phase.lead_id), notice: 'Phase marked as complete successfully'
   end
 
   private
@@ -58,6 +75,12 @@ class PhasesController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_phase
     @phase = Phase.find(params[:id])
+    authorize @phase
+  end
+
+  def user_not_authorized(_exception)
+    flash[:alert] = 'You are not authorized to perform this action.'
+    redirect_to lead_phases_path(@phase.lead_id)
   end
 
   # Only allow a list of trusted parameters through.
