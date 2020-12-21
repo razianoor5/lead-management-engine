@@ -88,8 +88,8 @@ development:
   host: 'localhost'
   port: 5432
 
-# production:
-#   <<: *default
-#   database: lead-management-engine_production
-#   username: lead-management-engine
-#   password: <%= ENV['LEAD-MANAGEMENT-ENGINE_DATABASE_PASSWORD'] %>
+production:
+  <<: *default
+  database: lead-management-engine_production
+  username: lead-management-engine
+  password: <%= ENV['LEAD-MANAGEMENT-ENGINE_DATABASE_PASSWORD'] %>
