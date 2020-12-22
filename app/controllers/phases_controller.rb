@@ -30,8 +30,7 @@ class PhasesController < ApplicationController
     user = User.find_by(email: @phase.assignee)
     unless user.present? && user.technical_manager?
       flash[:alert] = 'Wrong user email entered! Enter technical managers email'
-      render :new
-      return
+      return render :new
     end
 
     @phase.users.append(user)
