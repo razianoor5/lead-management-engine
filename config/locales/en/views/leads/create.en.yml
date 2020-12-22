@@ -1,5 +1,5 @@
 en:
   leads:
     create:
-        messages:
+        actions:
             lead_created: Lead was successfully created

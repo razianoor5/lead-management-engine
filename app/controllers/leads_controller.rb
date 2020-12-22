@@ -5,7 +5,7 @@ class LeadsController < ApplicationController
 
   # GET /leads
   def index
-    @leads = Lead.all
+    @leads = Lead.all.where(is_sale: 'open')
     # @leads = current_user.leads
   end
 
@@ -42,6 +42,11 @@ class LeadsController < ApplicationController
         format.html { render :edit }
       end
     end
+  end
+
+  def project_index
+    @leads = Lead.all.where(is_sale: 'close')
+    render :project
   end
 
   # DELETE /leads/1

@@ -1,6 +1,6 @@
 <nav class='navbar navbar-expand-lg navbar-light bg-light'>
 
-  <div class='navbar-header'>
+  <div class='navbar-header', style = 'width:70%' >
     <h2>Lead Management Engine</h2>
   </div>
 
@@ -14,7 +14,7 @@
         <span class='navbar-text pull-right '>
           <%= current_user.email %>
           <%= link_to 'Home', leads_path, class: 'btn btn-info' %>
-          <%= link_to 'Projects', leads_path, class: 'btn btn-info' %>
+          <%= link_to 'Projects', projects_index_path, class: 'btn btn-info' %>
           <%= link_to 'Log out', destroy_user_session_path, method: :delete, class: 'btn btn-info'%>
         </span>
       <% else %>

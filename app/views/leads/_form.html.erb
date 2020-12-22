@@ -8,8 +8,9 @@
 
   <%= form.text_field :project_name %>
   <%= form.text_field :client_name %>
-  <%= form.text_field :client_email %>
+  <%= form.email_field :client_email %>
   <%= form.number_field :client_contact %>
+  <%= form.text_field :client_address %>
   <%= form.text_field :platform_used %>
   <%= form.submit %>
   <% end %>

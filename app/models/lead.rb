@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Lead < ApplicationRecord
+  enum is_sale: { close: true, open: false }
   belongs_to :user
   has_many :phases
   has_many :comments, as: :commentable
