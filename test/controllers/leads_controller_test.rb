@@ -21,7 +21,8 @@ class LeadsControllerTest < ActionDispatch::IntegrationTest
     assert_difference('Lead.count') do
       post leads_url,
            params: { lead: { client_contact: @lead.client_contact, client_email: @lead.client_email,
-                             client_name: @lead.client_name, is_sale: @lead.is_sale, platform_used: @lead.platform_used, project_name: @lead.project_name } }
+                             client_name: @lead.client_name, is_sale: @lead.is_sale, platform_used: @lead.platform_used,
+                             project_name: @lead.project_name } }
     end
 
     assert_redirected_to lead_url(Lead.last)
@@ -40,7 +41,8 @@ class LeadsControllerTest < ActionDispatch::IntegrationTest
   test 'should update lead' do
     patch lead_url(@lead),
           params: { lead: { client_contact: @lead.client_contact, client_email: @lead.client_email,
-                            client_name: @lead.client_name, is_sale: @lead.is_sale, platform_used: @lead.platform_used, project_name: @lead.project_name } }
+                            client_name: @lead.client_name, is_sale: @lead.is_sale, platform_used: @lead.platform_used,
+                            project_name: @lead.project_name } }
     assert_redirected_to lead_url(@lead)
   end
 

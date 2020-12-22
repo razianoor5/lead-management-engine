@@ -4,6 +4,7 @@ class PhasePolicy < ApplicationPolicy
   attr_reader :user, :phase
 
   def initialize(user, phase)
+    super
     @user = user
     @phase = phase
   end

@@ -4,6 +4,7 @@ class LeadPolicy < ApplicationPolicy
   attr_reader :user, :lead
 
   def initialize(user, lead)
+    super
     @user = user
     @lead = lead
   end

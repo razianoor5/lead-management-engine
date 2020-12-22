@@ -4,6 +4,7 @@ class CommentPolicy < ApplicationPolicy
   attr_reader :user, :comment
 
   def initialize(user, comment)
+    super
     @user = user
     @comment = comment
   end

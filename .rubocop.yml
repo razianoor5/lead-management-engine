@@ -14,6 +14,11 @@ AllCops:
     - 'vendor/bundle/**/*'
     - 'bin/**/*'
     - 'config/**/*'
+    - 'lib/*'
+    - 'db/migrate/*'
+    - 'app/models/*'
+    - 'app/controllers/comments_controller.rb'
+    - 'app/controllers/phases_controller.rb'
 
 Metrics/LineLength:
   Max: 120
