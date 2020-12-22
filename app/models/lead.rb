@@ -3,8 +3,8 @@
 class Lead < ApplicationRecord
   enum is_sale: { close: true, open: false }
   belongs_to :user
-  has_many :phases
-  has_many :comments, as: :commentable
+  has_many :phases, dependent: :destroy
+  has_many :comments, as: :commentable, dependent: :destroy
 
   validates :client_name, format: { with: /\A[a-zA-Z]+\z/ }, presence: true
   validates :client_email, :client_address, :client_contact, :platform_used, :project_name, presence: true

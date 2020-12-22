@@ -1,10 +1,7 @@
 # frozen_string_literal: true
-
 RailsAdmin.config do |config|
   config.authorize_with do
-    if current_user.present?
-      redirect_to main_app.root_path unless current_user.super_admin?
-    end
+    redirect_to main_app.root_path unless current_user && current_user.super_admin?
   end
   ### Popular gems integration
 
