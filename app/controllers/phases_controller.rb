@@ -28,6 +28,11 @@ class PhasesController < ApplicationController
     @phase = @lead.phases.new(phase_params)
     authorize @phase
     user = User.find_by(email: @phase.assignee)
+    unless user.present? && user.technical_manager?
+      flash[:alert] = 'Wrong user email entered! Enter technical managers email'
+      return render :new
+    end
+
     @phase.users.append(user)
     respond_to do |format|
       if @phase.save
