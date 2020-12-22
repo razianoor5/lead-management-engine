@@ -27,7 +27,7 @@
 </p>
 
 <p>
-  <strong>Is sale:</strong>
+  <strong>Status:</strong>
   <%= @lead.is_sale %>
 </p>
 
@@ -40,11 +40,11 @@
 <%= render partial: 'comments/comments', collection: @lead.comments, as: :comment %>
 <%if policy(@lead).close? %>
   <%= render partial: 'comments/lead_form', locals: {commentable: @lead} %>
-  <%= link_to 'Edit', edit_lead_path(@lead) %> |
+  <%= link_to 'Edit', edit_lead_path(@lead), class: 'btn btn-warning' %>
   <% if @lead.open? %>
-    <%= link_to 'Close Lead' ,lead_close_path(@lead) %>
+    <%= link_to 'Close Lead' ,lead_close_path(@lead), class: 'btn btn-success' %>
   <% end %>
 <% end %>
-<%= link_to 'Phases', lead_phases_path(@lead) %> |
-<%= link_to 'Back', leads_path %> |
+<%= link_to 'Phases', lead_phases_path(@lead), class: 'btn btn-primary' %>
+<%= link_to 'Back', leads_path, class: 'btn btn-primary' %>
 
