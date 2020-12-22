@@ -23,7 +23,7 @@ default: &default
 
 development:
   <<: *default
-  database: lead-management-engine_development
+  database: leadmanagement
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
@@ -78,15 +78,15 @@ test:
 #   production:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
-development:
-  adapter: postgresql
-  encoding: unicode
-  database: leadmanagement
-  pool: 5
-  username: leadmanagement
-  password: postgres1
-  host: 'localhost'
-  port: 5432
+# development:
+#   adapter: postgresql
+#   encoding: unicode
+#   database: leadmanagement
+#   pool: 5
+#   username: leadmanagement
+#   password: postgres1
+#   host: 'localhost'
+#   port: 5432
 
 production:
   <<: *default

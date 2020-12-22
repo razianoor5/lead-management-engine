@@ -3,5 +3,5 @@
 </div>
 <%= render 'form', phase: @phase %>
 
-<%= link_to 'Show', @phase %> |
-<%= link_to 'Back', lead_phases_path %>
+<%= link_to 'Show', lead_phase_path(@phase), class: 'btn btn-info' %>
+<%= link_to 'Back', lead_phases_path, class: 'btn btn-primary' %>

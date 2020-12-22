@@ -13,6 +13,10 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:account_update, keys: %i[role name])
   end
 
+  def error_occurred
+    render file: Rails.root.join('/public/404.html'), layout: false, status: :not_found
+  end
+
   def user_not_authorized(_exception)
     flash[:alert] = 'You are not authorized to perform this action.'
     redirect_to leads_path

@@ -1,0 +1,27 @@
+
+<h3>Projects</h3>
+
+<table class='table table-striped'>
+  <thead>
+    <tr>
+      <th scope='col'>Project name</th>
+      <th scope='col'>Client name</th>
+      <th scope='col'>Client email</th>
+      <th scope='col'>Client contact</th>
+      <th scope='col'>Platform used</th>
+      <th colspan='4'></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @leads.each do |lead| %>
+      <tr>
+        <td><%= lead.project_name %></td>
+        <td><%= lead.client_name %></td>
+        <td><%= lead.client_email %></td>
+        <td><%= lead.client_contact %></td>
+        <td><%= lead.platform_used %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

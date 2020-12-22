@@ -37,6 +37,6 @@
 
 <% if policy(@phase).complete? %>
   <% if @phase.pending? %>
-    <%= link_to 'Mark as complete', phase_complete_path(@phase) %>
+    <%= link_to 'Mark as complete', phase_complete_path(@phase), class: 'btn btn-warning' %>
   <% end %>
 <% end %>
