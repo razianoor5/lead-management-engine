@@ -103,5 +103,5 @@ Rails.application.configure do
     authentication: 'plain',
     enable_starttls_auto: true
   }
-  config.action_mailer.default_url_options[:host] = { 'https://lead-management-app.herokuapp.com/'}
+  config.action_mailer.default_url_options = { host: 'https://lead-management-app.herokuapp.com/' ,port: 3000}
 end
