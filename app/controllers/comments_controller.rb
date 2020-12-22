@@ -49,7 +49,7 @@ class CommentsController < ApplicationController
 
   def dry_comment(commentable, comment_params)
     comment = commentable.comments.new(comment_params)
-    authorize @comment
+    authorize comment
     comment.save
     comment
   end
