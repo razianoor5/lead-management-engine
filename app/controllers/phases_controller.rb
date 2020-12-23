@@ -26,10 +26,14 @@ class PhasesController < ApplicationController
   # POST /phases
   def create
     authorize @phase
-    unless @user = User.find_by(email: @phase.assignee) || !u.technical_manger?
-      return render :new, flash: 'Wrong user email entered! Enter technical managers email'
+    unless (@user = User.find_by_email(@phase.assignee)).present? && @user.technical_manager?
+      flash[:alert] = 'Wrong user email entered! Enter technical managers email'
+      return render :new
     end
-    return render :new unless @phase.users.create(@user)
+
+    @phase.users.append(@user)
+
+    return render :new unless @phase.save
 
     SendMailJob.perform_now(@user, @phase)
     redirect_to lead_phases_path, notice: 'Phase was successfully created.'

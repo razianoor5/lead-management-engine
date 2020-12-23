@@ -6,10 +6,13 @@ class CommentsController < ApplicationController
   # POST /comments
 
   def create
-    @commentable_resouce = Phase.find_by_id(params.dig(:phase_id)) || Lead.find_by_id(params.dig(:lead_id))
+    @commentable_resouce = Phase.find_by(id: params[:phase_id]) || Lead.find_by(id: params[:lead_id])
     create_and_authorize_comment(@commentable_resouce, comment_params)
-    return redirect_to [@commentable_resouce.lead, @commentable_resouce] if @commentable_resouce.class.eql?(Phase)
-    redirect_to @commentable_resouce, notic: 'successfull'
+    if @commentable_resouce.instance_of?(Phase)
+      return redirect_to [@commentable_resouce.lead, @commentable_resouce],
+                         notice: 'successfull'
+    end
+    redirect_to @commentable_resouce, notice: 'successfull'
   end
 
   # DELETE /comments/1

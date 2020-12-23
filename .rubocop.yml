@@ -40,8 +40,8 @@ Naming/MemoizedInstanceVariableName:
 
 Lint/AssignmentInCondition:
   Enabled: false
-# Metrics/AbcSize:
-#   Enabled: false
+Metrics/AbcSize:
+   Enabled: false
 
 Rails/HasAndBelongsToMany:
   Enabled: false
