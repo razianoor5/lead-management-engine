@@ -32,5 +32,7 @@
 
 <br>
 
-<%= link_to 'New Phase', new_lead_phase_path, class: 'btn btn-primary' %>
+<%if current_user.business_developer? %>
+  <%= link_to 'New Phase', new_lead_phase_path, class: 'btn btn-primary' %>
+<% end %>
 <%= link_to 'Back', leads_path, class: 'btn btn-primary' %>

@@ -21,7 +21,7 @@ class CommentsController < ApplicationController
   # DELETE /comments/1
 
   def destroy
-    @comment.destroy
+    @comment.destroy!
     if params[:phase_id]
       redirect_to lead_phase_path(params[:lead_id], params[:phase_id]), notice: 'Comment was successfully destroyed.'
     else
@@ -47,10 +47,20 @@ class CommentsController < ApplicationController
     redirect_to lead_path(params[:lead_id])
   end
 
+  def record_not_save(_exception)
+    flash[:alert] = 'couldn\'t save the record'
+    redirect_to lead_path(params[:lead_id])
+  end
+
+  def record_not_destroyed(_exception)
+    flash[:alert] = 'couldn\'t destroy the record'
+    redirect_to lead_path(params[:lead_id])
+  end
+
   def dry_comment(commentable, comment_params)
     comment = commentable.comments.new(comment_params)
     authorize comment
-    comment.save
+    comment.save!
     comment
   end
 end

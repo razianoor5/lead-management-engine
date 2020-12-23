@@ -51,7 +51,7 @@ class LeadsController < ApplicationController
 
   # DELETE /leads/1
   def destroy
-    @lead.destroy
+    @lead.destroy!
     respond_to { |format| format.html { redirect_to leads_url, notice: 'Lead was successfully destroyed.' } }
   end
 
@@ -71,6 +71,16 @@ class LeadsController < ApplicationController
   def set_lead
     @lead = Lead.find(params[:id])
     authorize @lead
+  end
+
+  def record_not_save(_exception)
+    flash[:alert] = 'couldn\'t save the record'
+    redirect_to leads_path
+  end
+
+  def record_not_destroyed(_exception)
+    flash[:alert] = 'couldn\'t destroy the record'
+    redirect_to leads_path
   end
 
   # Only allow a list of trusted parameters through.

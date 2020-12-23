@@ -57,7 +57,7 @@ class PhasesController < ApplicationController
 
   # DELETE /phases/1
   def destroy
-    @phase.destroy
+    @phase.destroy!
     redirect_to lead_phases_url, notice: 'Phase was successfully destroyed.'
   end
 
@@ -88,9 +88,20 @@ class PhasesController < ApplicationController
     authorize @phase
   end
 
+  # Exceptions
   def user_not_authorized(_exception)
     flash[:alert] = 'You are not authorized to perform this action.'
     redirect_to lead_phases_path(@phase.lead_id)
+  end
+
+  def record_not_save(_exception)
+    flash[:alert] = 'couldn\'t save the record'
+    redirect_to lead_phases_path(@phase.lead_id)
+  end
+
+  def record_not_destroyed(_exception)
+    flash[:alert] = 'couldn\'t destroy the record'
+    redirect_to lead_phases(@phase.lead_id)
   end
 
   # Only allow a list of trusted parameters through.
