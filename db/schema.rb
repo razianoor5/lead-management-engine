@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_16_122555) do
+ActiveRecord::Schema.define(version: 2020_12_23_114258) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 2020_12_16_122555) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "is_sale", default: false
+    t.index ["is_sale"], name: "index_leads_on_is_sale"
     t.index ["user_id"], name: "index_leads_on_user_id"
   end
 
@@ -47,6 +48,7 @@ ActiveRecord::Schema.define(version: 2020_12_16_122555) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "is_complete", default: false
+    t.index ["is_complete"], name: "index_phases_on_is_complete"
     t.index ["lead_id"], name: "index_phases_on_lead_id"
   end
 
