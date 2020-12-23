@@ -1,4 +1,4 @@
-<div class='col-lg-4 col-md-6 ml-auto mr-auto pt-5' >
+<div class='col-lg-6 col-md-8 ml-auto mr-auto pt-5' >
   <%= bootstrap_form_with  scope: :phase, url: lead_phases_url, local: true, method: :post do |form| %>
     <% if phase.errors.any? %>
       <div id='error_explanation'>
@@ -6,7 +6,7 @@
     <% end %>
     <%= form.text_field :phase_type %>
     <%= form.email_field :assignee %>
-    <%= form.datetime_select :start_date %>
+    <%= form.datetime_select :start_date%>
     <%= form.datetime_select :due_date %>
     <%= form.submit %>
   <% end %>
