@@ -1,12 +1,10 @@
 <div class='col-lg-3 ml-0 mr-auto pt-0 mb-0' >
 <p>
-  <%= comment.body %> |
-  <%= current_user.email %> |
-
+  <%= comment.body %>
   <% if @phase %>
-    <%= link_to 'Destroy', lead_phase_comment_path(lead , @phase, comment), method: :delete, data: { confirm: 'Are you sure?' } %>
+    <%= link_to 'Destroy', lead_phase_comment_path(lead , @phase, comment), method: :delete, data: { confirm: 'Are you sure?', class: 'btn btn-danger' } %>
   <% else %>
-    <%= link_to 'Destroy', lead_comment_path(@lead, comment), method: :delete, data: { confirm: 'Are you sure?' } %>
+    <%= link_to 'Destroy', lead_comment_path(@lead, comment), method: :delete, data: { confirm: 'Are you sure?', class: 'btn btn-danger' } %>
   <% end %>
 </p>
 

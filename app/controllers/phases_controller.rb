@@ -2,7 +2,8 @@
 
 class PhasesController < ApplicationController
   before_action :set_phase, only: %i[show edit update destroy engineer complete]
-
+  before_action :load_lead, only: :create
+  before_action :load_and_authorize_phase, only: :create
   def index
     @lead = Lead.find(params[:lead_id])
     @phases = @lead.phases
@@ -24,24 +25,14 @@ class PhasesController < ApplicationController
 
   # POST /phases
   def create
-    @lead = Lead.find(params[:lead_id])
-    @phase = @lead.phases.new(phase_params)
     authorize @phase
-    user = User.find_by(email: @phase.assignee)
-    unless user.present? && user.technical_manager?
-      flash[:alert] = 'Wrong user email entered! Enter technical managers email'
-      return render :new
+    unless @user = User.find_by(email: @phase.assignee) || !u.technical_manger?
+      return render :new, flash: 'Wrong user email entered! Enter technical managers email'
     end
+    return render :new unless @phase.users.create(@user)
 
-    @phase.users.append(user)
-    respond_to do |format|
-      if @phase.save
-        UserMailer.phase_assignment_email(user, @phase).deliver_now
-        format.html { redirect_to lead_phases_path, notice: 'Phase was successfully created.' }
-      else
-        format.html { render :new }
-      end
-    end
+    SendMailJob.perform_now(@user, @phase)
+    redirect_to lead_phases_path, notice: 'Phase was successfully created.'
   end
 
   # PATCH/PUT /phases/1
@@ -85,7 +76,15 @@ class PhasesController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_phase
     @phase = Phase.find(params[:id])
-    authorize @phase
+  end
+
+  def load_lead
+    @lead ||= Lead.find_by(id: params[:lead_id])
+  end
+
+  def load_and_authorize_phase
+    @phase ||= @lead.phases.new(phase_params)
+    authorize(@phase)
   end
 
   # Exceptions

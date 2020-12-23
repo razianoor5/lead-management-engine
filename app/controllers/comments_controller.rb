@@ -6,16 +6,10 @@ class CommentsController < ApplicationController
   # POST /comments
 
   def create
-    if params[:phase_id]
-      @commentable = Phase.find(params[:phase_id])
-      @lead = Lead.find(params[:lead_id])
-      dry_comment(@commentable, comment_params)
-      redirect_to [@lead, @commentable], notice: 'Your Comment was successfully created.'
-    else
-      @commentable = Lead.find(params[:lead_id])
-      dry_comment(@commentable, comment_params)
-      redirect_to @commentable, notice: 'Your Comment was successfully created.'
-    end
+    @commentable_resouce = Phase.find_by_id(params.dig(:phase_id)) || Lead.find_by_id(params.dig(:lead_id))
+    create_and_authorize_comment(@commentable_resouce, comment_params)
+    return redirect_to [@commentable_resouce.lead, @commentable_resouce] if @commentable_resouce.class.eql?(Phase)
+    redirect_to @commentable_resouce, notic: 'successfull'
   end
 
   # DELETE /comments/1
@@ -57,10 +51,10 @@ class CommentsController < ApplicationController
     redirect_to lead_path(params[:lead_id])
   end
 
-  def dry_comment(commentable, comment_params)
+  def create_and_authorize_comment(commentable, comment_params)
     comment = commentable.comments.new(comment_params)
     authorize comment
+    comment.body += " | #{current_user.email}"
     comment.save!
-    comment
   end
 end
