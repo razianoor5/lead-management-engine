@@ -10,7 +10,7 @@ class PhasesController < ApplicationController
 
   # GET /phases/1
   def show
-    @users = User.includes(:phases).engineer.filter { |engineer| engineer.phases.count.zero? }
+    @users = User.engineer
   end
 
   # GET /phases/new
@@ -65,8 +65,13 @@ class PhasesController < ApplicationController
 
   def engineer
     @engineer = User.find(params[:engineer][:user_id])
-    @phase.users.append(@engineer)
-    redirect_to lead_phase_url(@phase.lead_id), notice: 'Engineer was successfully added.'
+    if @phase.users.exists?(@engineer.id)
+      flash[:alert] = 'already assigned in the phase'
+    else
+      @phase.users.append(@engineer)
+      flash[:notice] = 'Engineer was successfully added.'
+    end
+    redirect_to lead_phase_url(@phase.lead_id)
   end
 
   def complete
