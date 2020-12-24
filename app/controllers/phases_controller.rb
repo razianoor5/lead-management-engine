@@ -27,10 +27,9 @@ class PhasesController < ApplicationController
   def create
     authorize @phase
     unless (@user = User.find_by_email(@phase.assignee)).present? && @user.technical_manager?
-      flash[:alert] = 'Wrong user email entered! Enter technical managers email'
+      flash[:notice] = 'Wrong user email entered! Enter technical managers email'
       return render :new
     end
-
     @phase.users.append(@user)
 
     return render :new unless @phase.save
