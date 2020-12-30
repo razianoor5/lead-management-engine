@@ -4,6 +4,7 @@ class PhasesController < ApplicationController
   before_action :set_phase, only: %i[show edit update destroy engineer complete]
   before_action :load_lead, only: :create
   before_action :load_and_authorize_phase, only: :create
+
   def index
     @lead = Lead.find(params[:lead_id])
     @phases = @lead.phases
@@ -21,7 +22,9 @@ class PhasesController < ApplicationController
   end
 
   # GET /phases/1/edit
-  def edit; end
+  def edit
+    authorize @phase
+  end
 
   # POST /phases
   def create
@@ -32,7 +35,7 @@ class PhasesController < ApplicationController
     end
     @phase.users.append(@user)
 
-    return render :new unless @phase.save
+    return render :new, notice: 'phase can not be save' unless @phase.save
 
     SendMailJob.perform_now(@user, @phase)
     redirect_to lead_phases_path, notice: 'Phase was successfully created.'
@@ -40,19 +43,25 @@ class PhasesController < ApplicationController
 
   # PATCH/PUT /phases/1
   def update
+    authorize @phase
     respond_to do |format|
       if @phase.update(phase_params)
         format.html { redirect_to lead_phases_url, notice: 'Phase was successfully updated.' }
       else
-        format.html { render :edit }
+        format.html { render :edit, notice: 'Phase was not updated.' }
       end
     end
   end
 
   # DELETE /phases/1
   def destroy
-    @phase.destroy!
-    redirect_to lead_phases_url, notice: 'Phase was successfully destroyed.'
+    authorize @phase
+    if @phase.destroy
+      flash[:notice] = 'Phase was successfully destroyed.'
+    else
+      flash[:alert] = 'Phase was not destroyed.'
+    end
+    redirect_to lead_phases_url
   end
 
   # Adding engineers
@@ -70,8 +79,12 @@ class PhasesController < ApplicationController
 
   def complete
     @phase.is_complete = true
-    @phase.save!
-    redirect_to lead_phases_url(@phase.lead_id), notice: 'Phase marked as complete successfully'
+    if @phase.save
+      flash[:alert] = 'Phase marked as complete successfully'
+    else
+      flash[:alert] = 'Phase can not be mark as complete '
+    end
+    redirect_to lead_phases_url(@phase.lead_id)
   end
 
   private
@@ -87,23 +100,13 @@ class PhasesController < ApplicationController
 
   def load_and_authorize_phase
     @phase ||= @lead.phases.new(phase_params)
-    authorize(@phase)
+    authorize @phase
   end
 
   # Exceptions
   def user_not_authorized(_exception)
     flash[:alert] = 'You are not authorized to perform this action.'
     redirect_to lead_phases_path(@phase.lead_id)
-  end
-
-  def record_not_save(_exception)
-    flash[:alert] = 'couldn\'t save the record'
-    redirect_to lead_phases_path(@phase.lead_id)
-  end
-
-  def record_not_destroyed(_exception)
-    flash[:alert] = 'couldn\'t destroy the record'
-    redirect_to lead_phases(@phase.lead_id)
   end
 
   # Only allow a list of trusted parameters through.

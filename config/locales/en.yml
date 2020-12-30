@@ -1,0 +1,14 @@
+en:
+  hello: "Hello world"
+  leads:
+    created: 'Lead was successfully created'
+    not_created: 'Lead was not successfully created'
+    wrong_email: 'Wrong user email entered! Enter technical managers email'
+    updated: 'Lead was not successfully updated'
+    close_success: 'Lead closed successfully'
+    close_failure: 'Lead cannot closed associated phases are pending'
+    destroyed: 'Lead was successfully destroyed.'
+    not_destroyed: 'Lead was not destroyed, there might be some issue.'
+    could_not_save_record: 'could not save the record'
+    could_not_save_record: 'could not destroy the record'
+    could_not_update_record: 'could not update the record'

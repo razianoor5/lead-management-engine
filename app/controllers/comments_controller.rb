@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class CommentsController < ApplicationController
-  before_action :set_comment, only: %i[destroy]
+  before_action :set_and_authorize_comment, only: :destroy
 
   # POST /comments
 
@@ -10,9 +10,9 @@ class CommentsController < ApplicationController
     create_and_authorize_comment(@commentable_resouce, comment_params)
     if @commentable_resouce.instance_of?(Phase)
       return redirect_to [@commentable_resouce.lead, @commentable_resouce],
-                         notice: 'successfull'
+                         notice: 'Comment was created successfully.'
     end
-    redirect_to @commentable_resouce, notice: 'successfull'
+    redirect_to @commentable_resouce, notice: 'Comment was created successfully.'
   end
 
   # DELETE /comments/1
@@ -26,10 +26,18 @@ class CommentsController < ApplicationController
     end
   end
 
+  def redirection_path
+    if @comment.commentable_type == 'Phase'
+      lead_phase_path(params[:lead_id], params[:phase_id])
+    else
+      redirect_to lead_path(id: params[:lead_id])
+    end
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
-  def set_comment
+  def set_and_authorize_comment
     @comment = Comment.find(params[:id])
     authorize @comment
   end
@@ -39,25 +47,10 @@ class CommentsController < ApplicationController
     params.require(:comment).permit!
   end
 
-  def user_not_authorized(_exception)
-    flash[:alert] = 'You are not authorized to perform this action.'
-    redirect_to lead_path(params[:lead_id])
-  end
-
-  def record_not_save(_exception)
-    flash[:alert] = 'couldn\'t save the record'
-    redirect_to lead_path(params[:lead_id])
-  end
-
-  def record_not_destroyed(_exception)
-    flash[:alert] = 'couldn\'t destroy the record'
-    redirect_to lead_path(params[:lead_id])
-  end
-
   def create_and_authorize_comment(commentable, comment_params)
-    comment = commentable.comments.new(comment_params)
-    authorize comment
-    comment.body += " | #{current_user.email}"
-    comment.save!
+    @comment = commentable.comments.new(comment_params)
+    authorize @comment
+    @comment.body += " | #{current_user.email}"
+    @comment.save!
   end
 end

@@ -5,8 +5,7 @@ class LeadsController < ApplicationController
 
   # GET /leads
   def index
-    @leads = Lead.all.where(is_sale: 'open')
-    # @leads = current_user.leads
+    @leads = Lead.open
   end
 
   def show; end
@@ -22,13 +21,12 @@ class LeadsController < ApplicationController
 
   # POST /leads
   def create
-    # current_user.leads.build(lead_params)
     @lead = current_user.leads.new(lead_params)
     respond_to do |format|
       if @lead.save
-        format.html { redirect_to @lead, notice: 'Lead was successfully created.' }
+        format.html { redirect_to @lead, notice: I18n.t('leads.created') }
       else
-        format.html { render :new }
+        format.html { render :new, notice: I18n.t('leads.not_created') }
       end
     end
   end
@@ -37,31 +35,37 @@ class LeadsController < ApplicationController
   def update
     respond_to do |format|
       if @lead.update(lead_params)
-        format.html { redirect_to @lead, notice: 'Lead was successfully updated.' }
+        format.html { redirect_to @lead, notice: I18n.t('leads.created') }
       else
-        format.html { render :edit }
+        format.html { render :edit, notice: I18n.t('could_not_update_record') }
       end
     end
   end
 
   def project_index
-    @leads = Lead.all.where(is_sale: 'close')
+    @leads = Lead.close
     render :project
   end
 
   # DELETE /leads/1
   def destroy
-    @lead.destroy!
-    respond_to { |format| format.html { redirect_to leads_url, notice: 'Lead was successfully destroyed.' } }
+    flash[:notice] = if @lead.destroy
+                       I18n.t('leads.destroyed')
+                     else
+                       I18n.t('leads.not_destroyed')
+                     end
+
+    redirect_to leads_url
   end
 
   def close
     if @lead.phases.pending.exists?
-      redirect_to lead_url, alert: 'Lead cannot closed associated phases are pending'
+      redirect_to lead_url, alert: I18n.t('leads.close_failure')
     else
-      @lead.is_sale = true
-      @lead.save!
-      redirect_to lead_url, notice: 'Lead closed successfully'
+      notice = @lead.update(is_sale: true) ? I18n.t('leads.close_success') :
+                                               I18n.t('leads.close_failure')
+
+      redirect_to lead_url, notice: notice
     end
   end
 
@@ -73,18 +77,10 @@ class LeadsController < ApplicationController
     authorize @lead
   end
 
-  def record_not_save(_exception)
-    flash[:alert] = 'couldn\'t save the record'
-    redirect_to leads_path
-  end
-
-  def record_not_destroyed(_exception)
-    flash[:alert] = 'couldn\'t destroy the record'
-    redirect_to leads_path
-  end
-
   # Only allow a list of trusted parameters through.
   def lead_params
-    params.require(:lead).permit!
+    params.require(:lead).permit(:project_name, :client_name, :client_address,
+                                 :client_email, :client_contact, :platform_used,
+                                 :user_id)
   end
 end

@@ -15,6 +15,7 @@
 ```shell
   * Ruby 2.4.0
   * Rails 5.2.4.4
+  * Postgres 1.2.3
 ```
 ### Check out the repository
 

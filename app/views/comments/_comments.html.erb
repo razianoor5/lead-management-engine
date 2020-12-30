@@ -1,10 +1,10 @@
 <div class='col-lg-3 ml-0 mr-auto pt-0 mb-0' >
-<p>
-  <%= comment.body %>
-  <% if @phase && policy(comment).destroy? %>
-    <%= link_to 'Destroy', lead_phase_comment_path(lead , @phase, comment), method: :delete, data: { confirm: 'Are you sure?', class: 'btn btn-danger' } %>
-  <% elsif policy(comment).destroy? %>
-    <%= link_to 'Destroy', lead_comment_path(@lead, comment), method: :delete, data: { confirm: 'Are you sure?', class: 'btn btn-danger' } %>
-  <% end %>
-</p>
+  <p>
+    <%= comment.body %>
+    <% if @phase && policy(comment).destroy? %>
+      <%= link_to 'Destroy', lead_phase_comment_path(lead , @phase, comment), method: :delete, data: { confirm: 'Are you sure?', class: 'btn btn-danger' } %>
+    <% elsif policy(comment).destroy? %>
+      <%= link_to 'Destroy', lead_comment_path(@lead, comment), method: :delete, data: { confirm: 'Are you sure?', class: 'btn btn-danger' } %>
+    <% end %>
+  </p>
 </div>

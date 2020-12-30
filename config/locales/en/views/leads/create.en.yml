@@ -1,5 +1,0 @@
-en:
-  leads:
-    create:
-        actions:
-            lead_created: Lead was successfully created

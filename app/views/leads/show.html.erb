@@ -1,40 +1,40 @@
 
 <div class='col-lg-12 ml-0 mr-auto pt-3 mb-1' >
 
-<p>
-  <strong>Project name:</strong>
-  <%= @lead.project_name %>
-</p>
+  <p>
+    <strong>Project name:</strong>
+    <%= @lead.project_name %>
+  </p>
 
-<p>
-  <strong>Client name:</strong>
-  <%= @lead.client_name %>
-</p>
+  <p>
+    <strong>Client name:</strong>
+    <%= @lead.client_name %>
+  </p>
 
-<p>
-  <strong>Client email:</strong>
-  <%= @lead.client_email %>
-</p>
+  <p>
+    <strong>Client email:</strong>
+    <%= @lead.client_email %>
+  </p>
 
-<p>
-  <strong>Client contact:</strong>
-  <%= @lead.client_contact %>
-</p>
+  <p>
+    <strong>Client contact:</strong>
+    <%= @lead.client_contact %>
+  </p>
 
-<p>
-  <strong>Platform used:</strong>
-  <%= @lead.platform_used %>
-</p>
+  <p>
+    <strong>Platform used:</strong>
+    <%= @lead.platform_used %>
+  </p>
 
-<p>
-  <strong>Status:</strong>
-  <%= @lead.is_sale %>
-</p>
+  <p>
+    <strong>Status:</strong>
+    <%= @lead.is_sale %>
+  </p>
 
 </div>
 
 <div class='col-lg-3 ml-0 mr-auto pt-3 mb-1' >
-<h4><strong>Comments:</strong></h4>
+  <h4><strong>Comments:</strong></h4>
 </div>
 
 <%= render partial: 'comments/comments', collection: @lead.comments, as: :comment %>

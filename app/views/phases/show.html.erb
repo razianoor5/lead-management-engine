@@ -34,7 +34,7 @@
   <%= render 'phases/engineers_form' %>
 <% end %>
 
-<%= render 'phases/show' %>
+<%= render 'phases/show_comments' %>
 
 <% if policy(@phase).complete? %>
   <% if @phase.pending? %>
