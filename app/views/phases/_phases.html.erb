@@ -20,10 +20,10 @@
         <td><%= phase.due_date %></td>
         <td><%= phase.lead.client_email %></td>
         <td><%= phase.is_complete %></td>
-        <td><%= link_to 'Show', lead_phase_path(id:phase.id), class: 'btn btn-info' %></td>
+        <td><%= link_to 'Show', lead_phase_path(id: phase.id), class: 'btn btn-info' %></td>
         <% if policy(phase).edit? %>
-          <td><%= link_to 'Edit', edit_lead_phase_path(id:phase.id), class: 'btn btn-warning' %></td>
-          <td><%= link_to 'Destroy', lead_phase_path(id:phase.id), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %></td>
+          <td><%= link_to 'Edit', edit_lead_phase_path(id: phase.id), class: 'btn btn-warning' %></td>
+          <td><%= link_to 'Destroy', lead_phase_path(id: phase.id), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %></td>
         <% end %>
       </tr>
     <% end %>
@@ -32,5 +32,7 @@
 
 <br>
 
-<%= link_to 'New Phase', new_lead_phase_path, class: 'btn btn-primary' %>
+<%if policy(@lead).close? %>
+  <%= link_to 'New Phase', new_lead_phase_path, class: 'btn btn-primary' %>
+<% end %>
 <%= link_to 'Back', leads_path, class: 'btn btn-primary' %>

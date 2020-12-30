@@ -25,7 +25,7 @@ class CommentPolicy < ApplicationPolicy
       @user.id == lead.user.id
     else
       phase = Phase.find(@comment.commentable_id)
-      phase.users.where(role: 'technical_manager').exists?(@user.id)
+      phase.users.where(role: 'technical_manager').exists?(@user.id) || phase.lead.user.id == @user.id
     end
   end
 

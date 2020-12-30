@@ -35,8 +35,13 @@ Lint/AmbiguousBlockAssociation:
 Style/Documentation:
   Enabled: false
 
-Metrics/AbcSize:
+Naming/MemoizedInstanceVariableName:
   Enabled: false
+
+Lint/AssignmentInCondition:
+  Enabled: false
+Metrics/AbcSize:
+   Enabled: false
 
 Rails/HasAndBelongsToMany:
   Enabled: false

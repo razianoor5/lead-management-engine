@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_16_122555) do
+ActiveRecord::Schema.define(version: 2020_12_24_125754) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,27 +26,29 @@ ActiveRecord::Schema.define(version: 2020_12_16_122555) do
 
   create_table "leads", force: :cascade do |t|
     t.string "project_name"
-    t.string "client_name"
+    t.string "client_name", null: false
     t.string "client_address"
-    t.string "client_email"
-    t.string "client_contact"
+    t.string "client_email", null: false
+    t.string "client_contact", null: false
     t.string "platform_used"
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "is_sale", default: false
+    t.index ["is_sale"], name: "index_leads_on_is_sale"
     t.index ["user_id"], name: "index_leads_on_user_id"
   end
 
   create_table "phases", force: :cascade do |t|
     t.string "phase_type"
-    t.string "assignee"
-    t.datetime "start_date"
-    t.datetime "due_date"
+    t.string "assignee", null: false
+    t.datetime "start_date", null: false
+    t.datetime "due_date", null: false
     t.bigint "lead_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "is_complete", default: false
+    t.index ["is_complete"], name: "index_phases_on_is_complete"
     t.index ["lead_id"], name: "index_phases_on_lead_id"
   end
 

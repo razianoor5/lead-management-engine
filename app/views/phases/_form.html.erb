@@ -3,6 +3,7 @@
     <% if phase.errors.any? %>
       <div id='error_explanation'>
         <h4><%= pluralize(phase.errors.count, 'error') %> prohibited this phase from being saved:</h4>
+      </div>>
     <% end %>
     <%= form.text_field :phase_type %>
     <%= form.email_field :assignee %>

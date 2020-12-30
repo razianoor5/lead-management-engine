@@ -2,6 +2,8 @@
 
 class PhasesController < ApplicationController
   before_action :set_phase, only: %i[show edit update destroy engineer complete]
+  before_action :load_lead, only: :create
+  before_action :load_and_authorize_phase, only: :create
 
   def index
     @lead = Lead.find(params[:lead_id])
@@ -20,45 +22,46 @@ class PhasesController < ApplicationController
   end
 
   # GET /phases/1/edit
-  def edit; end
+  def edit
+    authorize @phase
+  end
 
   # POST /phases
   def create
-    @lead = Lead.find(params[:lead_id])
-    @phase = @lead.phases.new(phase_params)
     authorize @phase
-    user = User.find_by(email: @phase.assignee)
-    unless user.present? && user.technical_manager?
-      flash[:alert] = 'Wrong user email entered! Enter technical managers email'
+    unless (@user = User.find_by_email(@phase.assignee)).present? && @user.technical_manager?
+      flash[:notice] = 'Wrong user email entered! Enter technical managers email'
       return render :new
     end
+    @phase.users.append(@user)
 
-    @phase.users.append(user)
-    respond_to do |format|
-      if @phase.save
-        UserMailer.phase_assignment_email(user, @phase).deliver_now
-        format.html { redirect_to lead_phases_path, notice: 'Phase was successfully created.' }
-      else
-        format.html { render :new }
-      end
-    end
+    return render :new, notice: 'phase can not be save' unless @phase.save
+
+    SendMailJob.perform_now(@user, @phase)
+    redirect_to lead_phases_path, notice: 'Phase was successfully created.'
   end
 
   # PATCH/PUT /phases/1
   def update
+    authorize @phase
     respond_to do |format|
       if @phase.update(phase_params)
         format.html { redirect_to lead_phases_url, notice: 'Phase was successfully updated.' }
       else
-        format.html { render :edit }
+        format.html { render :edit, notice: 'Phase was not updated.' }
       end
     end
   end
 
   # DELETE /phases/1
   def destroy
-    @phase.destroy
-    redirect_to lead_phases_url, notice: 'Phase was successfully destroyed.'
+    authorize @phase
+    if @phase.destroy
+      flash[:notice] = 'Phase was successfully destroyed.'
+    else
+      flash[:alert] = 'Phase was not destroyed.'
+    end
+    redirect_to lead_phases_url
   end
 
   # Adding engineers
@@ -76,8 +79,12 @@ class PhasesController < ApplicationController
 
   def complete
     @phase.is_complete = true
-    @phase.save!
-    redirect_to lead_phases_url(@phase.lead_id), notice: 'Phase marked as complete successfully'
+    if @phase.save
+      flash[:alert] = 'Phase marked as complete successfully'
+    else
+      flash[:alert] = 'Phase can not be mark as complete '
+    end
+    redirect_to lead_phases_url(@phase.lead_id)
   end
 
   private
@@ -85,9 +92,18 @@ class PhasesController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_phase
     @phase = Phase.find(params[:id])
+  end
+
+  def load_lead
+    @lead ||= Lead.find_by(id: params[:lead_id])
+  end
+
+  def load_and_authorize_phase
+    @phase ||= @lead.phases.new(phase_params)
     authorize @phase
   end
 
+  # Exceptions
   def user_not_authorized(_exception)
     flash[:alert] = 'You are not authorized to perform this action.'
     redirect_to lead_phases_path(@phase.lead_id)

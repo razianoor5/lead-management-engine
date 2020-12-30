@@ -1,17 +1,17 @@
 <div class='col-lg-4 ml-auto mr-auto pt-5' >
   <%= bootstrap_form_with(model: lead, local: true) do |form| %>
-  <% if lead.errors.any? %>
-  <div id='error_explanation'>
-    <h4><%= pluralize(lead.errors.count, 'error') %> prohibited this lead from being saved</h4>
-  </div>
-  <% end %>
+    <% if lead.errors.any? %>
+      <div id='error_explanation'>
+        <h4><%= pluralize(lead.errors.count, 'error') %> prohibited this lead from being saved</h4>
+      </div>
+    <% end %>
 
-  <%= form.text_field :project_name %>
-  <%= form.text_field :client_name %>
-  <%= form.email_field :client_email %>
-  <%= form.number_field :client_contact %>
-  <%= form.text_field :client_address %>
-  <%= form.text_field :platform_used %>
-  <%= form.submit %>
+    <%= form.text_field :project_name %>
+    <%= form.text_field :client_name %>
+    <%= form.email_field :client_email %>
+    <%= form.number_field :client_contact %>
+    <%= form.text_field :client_address %>
+    <%= form.text_field :platform_used %>
+    <%= form.submit %>
   <% end %>
 </div>
