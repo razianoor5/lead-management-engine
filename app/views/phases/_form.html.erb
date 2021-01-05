@@ -1,5 +1,5 @@
 <div class='col-lg-6 col-md-8 ml-auto mr-auto pt-5' >
-  <%= bootstrap_form_with  scope: :phase, url: lead_phases_url, local: true, method: :post do |form| %>
+  <%= bootstrap_form_with model: [@phase.lead, @phase] do |form| %>
     <% if phase.errors.any? %>
       <div id='error_explanation'>
         <h4><%= pluralize(phase.errors.count, 'error') %> prohibited this phase from being saved:</h4>
