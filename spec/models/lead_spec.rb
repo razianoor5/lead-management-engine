@@ -41,15 +41,6 @@ RSpec.describe Lead, type: :model do
       expect(lead.errors.messages[:project_name]).to eq(['can\'t be blank'])
     end
 
-    # context 'empty address' do
-    #         let!(:user) { create(:user) }
-    #   let(:lead) { create(:lead) }
-    #   it 'should show  cant be blank' do
-    #     expect(lead.save).to eq(false)
-    #     expect(lead.errors.messages[:client_address]).to eq(['can\'t be blank'])
-    #   end
-    # end
-
     context 'format of client name' do
       let!(:user) { create(:user) }
       it 'client name should be in alphabets' do

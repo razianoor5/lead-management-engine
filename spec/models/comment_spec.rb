@@ -8,4 +8,12 @@ RSpec.describe Comment, type: :model do
       expect(comment.macro).to eq(:belongs_to)
     end
   end
+
+  describe 'validations' do
+    it 'body should be present' do
+      comment = described_class.new()
+      expect(comment.save).to eq(false)
+      expect(comment.errors.messages[:body]).to eq(['can\'t be blank'])
+    end
+  end
 end

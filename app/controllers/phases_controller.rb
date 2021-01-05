@@ -48,9 +48,8 @@ class PhasesController < ApplicationController
       if @phase.update(phase_params)
         format.html { redirect_to lead_phases_url, notice: 'Phase was successfully updated.' }
       else
-
-        # flash[:notice] = 'Phase was not updated.'
-        format.html { render :edit, notice: 'Phase was not updated.' }
+        flash[:notice] = 'Phase was not updated.'
+        format.html { render :edit }
       end
     end
   end
