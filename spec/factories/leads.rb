@@ -16,6 +16,21 @@ FactoryBot.define do
         lead.save
       end
     end
+
+    trait :with_phase_comments do
+      after :create do |lead|
+        phases = FactoryBot.create_list :phase, 2, :with_comments
+        lead.phases << phases
+        lead.save
+      end
+    end
+
+    trait :with_comments do
+      after :create do |lead|
+        lead.comments.create({ body: 'hello' })
+      end
+    end
+
     trait :with_empty_city do
       client_address { '' }
     end

@@ -63,8 +63,8 @@ RSpec.describe PhasesController, type: :controller do
 
     context 'with unauthorized user' do
       let(:user) { create(:user, :engineer) }
-      let(:bd) { create(:user) }
-      let(:lead) { create(:lead, :with_phases, user: bd) }
+      let(:user_business_developer) { create(:user) }
+      let(:lead) { create(:lead, :with_phases, user: user_business_developer) }
 
       it 'redirects when user is not business_developer' do
         params = { user_id: user.id, lead_id: lead.id, id: lead.phases.first.id }
@@ -86,6 +86,14 @@ RSpec.describe PhasesController, type: :controller do
                   due_date: Faker::Date.between(from: '2020-12-23', to: '2020-12-30'), lead_id: lead.id } }
         post :create, params: params
         expect(flash[:notice]).to eq 'Phase was successfully created.'
+      end
+
+      it 'will not create phase as assignee is not technical_manager' do
+        params = { lead_id: lead.id, phase: { phase_type: 'Test', assignee: user.email,
+                  start_date: Faker::Date.between(from: '2020-12-11', to: '2020-12-22'),
+                  due_date: Faker::Date.between(from: '2020-12-23', to: '2020-12-30'), lead_id: lead.id } }
+        post :create, params: params
+        expect(flash[:notice]).to eq 'Wrong user email entered! Enter technical managers email'
       end
     end
 

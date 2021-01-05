@@ -13,7 +13,12 @@ FactoryBot.define do
 
     trait :with_users do
       after :create do |phase|
-      phase.users = create_list(:user, 5, :engineer)
+        phase.users = create_list(:user, 5, :engineer)
+      end
+    end
+    trait :with_comments do
+      after :create do |phase|
+        phase.comments.create({ body: 'hello' })
       end
     end
   end
