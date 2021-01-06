@@ -150,6 +150,12 @@ RSpec.describe PhasesController, type: :controller do
         delete :destroy, params: params
         expect(response).to redirect_to lead_phases_url
       end
+      it 'will not destroy the object' do
+        allow_any_instance_of(Phase).to receive(:destroy).and_return(false)
+        params = { user_id: user.id, lead_id: lead.id, id: lead.phases.first.id }
+        post :destroy, params: params
+        expect(flash[:alert]).to eq 'Phase was not destroyed.'
+      end
     end
 
     context 'with unauthorized user' do
@@ -210,18 +216,5 @@ RSpec.describe PhasesController, type: :controller do
         expect(flash[:alert]).to eq 'Phase marked as complete successfully'
       end
     end
-    # context 'when phase is not complete' do
-    #   let(:user) { create(:user) }
-    #   let(:lead) { create(:lead, :with_phases, user: user) }
-
-    #   it 'will mark the phase complete' do
-    #     lead.phases.first.assignee = nil
-    #     lead.phases.first.save
-    #     params = { user_id: user.id, lead_id: lead.id, id: lead.phases.first.id, phase: lead.phases.first }
-    #     byebug
-    #     get :complete, params: params
-    #     expect(flash[:alert]).to eq 'Phase marked as complete successfully'
-    #   end
-    # end
   end
 end

@@ -43,6 +43,12 @@ RSpec.describe CommentsController, type: :controller do
         post :destroy, params: params
         expect(response.status).to eq(302)
       end
+      it 'will pass through else block ' do
+        allow_any_instance_of(Comment).to receive(:destroy).and_return(false)
+        params = { user_id: user.id, lead_id: lead2.id, id: lead2.comments.first.id }
+        post :destroy, params: params
+        expect(flash[:alert]).to eq 'couldn\'t destroy the record'
+      end
     end
   end
 end

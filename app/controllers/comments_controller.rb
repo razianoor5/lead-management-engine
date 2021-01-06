@@ -20,9 +20,9 @@ class CommentsController < ApplicationController
   def destroy
     @comment.destroy!
     if params[:phase_id]
-      redirect_to lead_phase_path(params[:lead_id], params[:phase_id]), notice: 'Comment was successfully destroyed.'
+      redirect_to lead_phase_path(params[:lead_id], params[:phase_id]), notice: 'Comment was successfully destroyed.' and return
     else
-      redirect_to lead_path(id: params[:lead_id]), notice: 'Comment was successfully destroyed.'
+      redirect_to lead_path(id: params[:lead_id]), notice: 'Comment was successfully destroyed.' and return
     end
   end
 
@@ -30,7 +30,7 @@ class CommentsController < ApplicationController
     if @comment.commentable_type == 'Phase'
       lead_phase_path(params[:lead_id], params[:phase_id])
     else
-      redirect_to lead_path(id: params[:lead_id])
+      lead_path(id: params[:lead_id])
     end
   end
 
