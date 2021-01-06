@@ -48,7 +48,8 @@ class PhasesController < ApplicationController
       if @phase.update(phase_params)
         format.html { redirect_to lead_phases_url, notice: 'Phase was successfully updated.' }
       else
-        format.html { render :edit, notice: 'Phase was not updated.' }
+        flash[:notice] = 'Phase was not updated.'
+        format.html { render :edit }
       end
     end
   end
@@ -111,6 +112,6 @@ class PhasesController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def phase_params
-    params.require(:phase).permit(:phase_type, :assignee, :start_date, :due_date)
+    params.require(:phase).permit(:phase_type, :assignee, :start_date, :due_date, :lead_id)
   end
 end
