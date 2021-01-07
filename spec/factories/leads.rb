@@ -5,7 +5,7 @@ FactoryBot.define do
     association :user
 
     project_name { Faker::Team.name }
-    client_name { 'nummm' }
+    client_name { Faker::Name.first_name }
     client_address { Faker::Address.city }
     client_email { Faker::Internet.safe_email }
     client_contact { '03497847665' }
