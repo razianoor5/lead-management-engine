@@ -30,7 +30,18 @@ gem 'jbuilder', '~> 2.5'
 # gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
-
+# gem used for authorization
+gem 'pundit', require: true
+# gem used for admin panel
+gem 'rails_admin'
+# gem used for secure data
+gem 'figaro'
+# gem used for bootstrap
+gem 'bootstrap', '~> 4.0.0'
+# gem used for jquery
+gem 'jquery-rails'
+# gem used for bootstrap_form
+gem 'bootstrap_form'
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 
@@ -68,30 +79,18 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 gem 'devise'
 
 group :development, :test do
-  gem 'rspec-rails'
   gem 'database_cleaner'
+  gem 'factory_bot_rails'
+  gem 'faker'
   gem 'rubocop'
   gem 'rubocop-performance'
   gem 'rubocop-rails'
   gem 'rubocop-rspec' # or gem 'rubocop-rspec' depending on your test suite
-  gem 'factory_bot_rails'
-  gem 'faker'
 end
 
 group :test do
   gem 'rails-controller-testing'
+  gem 'rspec-rails'
   gem 'shoulda-matchers', '~> 4.0'
   gem 'simplecov', require: false, group: :test
 end
-
-gem 'pundit', require: true
-
-gem 'rails_admin'
-
-gem 'figaro'
-
-gem 'bootstrap', '~> 4.0.0'
-
-gem 'jquery-rails'
-
-gem 'bootstrap_form'

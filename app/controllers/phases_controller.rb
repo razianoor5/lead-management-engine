@@ -29,7 +29,7 @@ class PhasesController < ApplicationController
   # POST /phases
   def create
     authorize @phase
-    unless (@user = User.find_by_email(@phase.assignee)).present? && @user.technical_manager?
+    unless (@user = User.find_by(email: @phase.assignee)).present? && @user.technical_manager?
       flash[:notice] = 'Wrong user email entered! Enter technical managers email'
       return render :new
     end
@@ -80,11 +80,11 @@ class PhasesController < ApplicationController
 
   def complete
     @phase.is_complete = true
-    if @phase.save
-      flash[:alert] = 'Phase marked as complete successfully'
-    else
-      flash[:alert] = 'Phase can not be mark as complete '
-    end
+    flash[:alert] = if @phase.save
+                      'Phase marked as complete successfully'
+                    else
+                      'Phase can not be mark as complete '
+                    end
     redirect_to lead_phases_url(@phase.lead_id)
   end
 

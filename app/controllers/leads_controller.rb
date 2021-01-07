@@ -62,8 +62,11 @@ class LeadsController < ApplicationController
     if @lead.phases.pending.exists?
       redirect_to lead_url, alert: I18n.t('leads.close_failure')
     else
-      notice = @lead.update(is_sale: true) ? I18n.t('leads.close_success') :
-                                               I18n.t('leads.close_failure')
+      notice = if @lead.update(is_sale: true)
+                 I18n.t('leads.close_success')
+               else
+                 I18n.t('leads.close_failure')
+               end
 
       redirect_to lead_url, notice: notice
     end
