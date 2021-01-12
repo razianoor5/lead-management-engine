@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :lead do
     association :user
 
-    project_name { 'Devsinc' }
-    client_name { 'nummm' }
+    project_name { Faker::Team.name }
+    client_name { Faker::Name.first_name }
     client_address { Faker::Address.city }
     client_email { Faker::Internet.safe_email }
     client_contact { '03497847665' }
@@ -13,7 +15,7 @@ FactoryBot.define do
       after :create do |lead|
         phases = FactoryBot.create_list :phase, 2, :with_users
         lead.phases << phases
-        lead.save
+        lead.save!
       end
     end
 

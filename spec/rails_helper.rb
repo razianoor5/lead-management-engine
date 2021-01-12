@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'spec_helper'
 require 'support/factory_bot'
@@ -6,7 +8,7 @@ require 'simplecov'
 SimpleCov.start
 
 ENV['RAILS_ENV'] ||= 'test'
-require File.expand_path('../config/environment'.dup, __dir__)
+require File.expand_path(+'../config/environment', __dir__)
 # Prevent database truncation if the environment is production
 abort('The Rails environment is running in production mode!') if Rails.env.production?
 require 'database_cleaner'
@@ -69,12 +71,6 @@ RSpec.configure do |config|
   end
   config.before(:each, js: true) do
     DatabaseCleaner.strategy = :truncation
-  end
-  config.before do
-    DatabaseCleaner.start
-  end
-  config.after do
-    DatabaseCleaner.clean
   end
   config.before(:all) do
     DatabaseCleaner.start
