@@ -86,7 +86,7 @@ class LeadsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_lead
     @lead = Lead.find(params[:id])
-    # authorize @lead
+    authorize @lead
   end
 
   # Only allow a list of trusted parameters through.
