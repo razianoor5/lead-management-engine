@@ -82,12 +82,12 @@ gem 'devise'
 
 group :development, :test do
   gem 'database_cleaner'
+  gem 'factory_bot_rails'
+  gem 'faker'
   gem 'rubocop'
   gem 'rubocop-performance'
   gem 'rubocop-rails'
   gem 'rubocop-rspec' # or gem 'rubocop-rspec' depending on your test suite
-  gem 'factory_bot_rails'
-  gem 'faker'
 end
 
 group :test do
