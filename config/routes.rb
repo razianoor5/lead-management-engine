@@ -17,7 +17,7 @@ Rails.application.routes.draw do
   end
 
   namespace :api do
-    resources :leads, controller: 'leads', only: %i[index show]
+    resources :leads, only: %i[index show]
   end
 
   root to: 'leads#index'

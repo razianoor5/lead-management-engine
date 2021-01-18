@@ -3,6 +3,7 @@
 module Api
   class LeadsController < ApplicationController
     skip_before_action :authenticate_user!
+
     def index
       @leads = Lead.open
       render json: @leads
