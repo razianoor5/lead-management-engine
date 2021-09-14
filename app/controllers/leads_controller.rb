@@ -6,9 +6,18 @@ class LeadsController < ApplicationController
   # GET /leads
   def index
     @leads = Lead.open
+    respond_to do |format|
+      format.html
+      format.json { render json: @leads }
+    end
   end
 
-  def show; end
+  def show
+    respond_to do |format|
+      format.html
+      format.json { render json: { lead: @lead, comments: @lead.comments } }
+    end
+  end
 
   # GET /leads/new
   def new

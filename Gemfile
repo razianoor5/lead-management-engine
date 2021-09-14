@@ -19,7 +19,7 @@ gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'mini_racer', platforms: :ruby
-
+gem 'rack-cors', '~> 0.4.0'
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
@@ -42,6 +42,8 @@ gem 'bootstrap', '~> 4.0.0'
 gem 'jquery-rails'
 # gem used for bootstrap_form
 gem 'bootstrap_form'
+# gem used for serialization
+gem 'active_model_serializers'
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 
@@ -79,20 +81,13 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 gem 'devise'
 
 group :development, :test do
-  gem 'rspec-rails'
   gem 'database_cleaner'
+  gem 'factory_bot_rails'
+  gem 'faker'
   gem 'rubocop'
   gem 'rubocop-performance'
   gem 'rubocop-rails'
   gem 'rubocop-rspec' # or gem 'rubocop-rspec' depending on your test suite
-  gem 'factory_bot_rails'
-  gem 'faker'
-end
-
-group :test do
-  gem 'rails-controller-testing'
-  gem 'shoulda-matchers', '~> 4.0'
-  gem 'simplecov', require: false, group: :test
 end
 
 group :test do
